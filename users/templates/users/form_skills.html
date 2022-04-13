@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+{# Alerts #}
+{% include 'alerts.html' %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-10 mx-auto">
+            <div class="my-5 p-4 border bg-light text-dark">
+                <h2 class="text-center mb-2">{{object}}</h2>
+                <hr>
+                <form action="" method="POST" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="mb-2">
+                        {% for field in form %}
+                            <div class="form-group mb-2">
+                                <label class="form-label">{{ field.label_tag }}</label>
+                            {% if field.errors %}
+                                {% render_field field class="form-control is-invalid" %}
+                                {% for error in field.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                            {% render_field form.name class="form-control" placeholder='eg: Python' %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                    <div class="text-end mt-2">
+                        <a href="javascript:history.go(-1)" class="btn btn-secondary"> Cancel</a>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{% static '/js/form_validation.js' %}"></script>
+
+{% endblock content %}

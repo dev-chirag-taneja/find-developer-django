@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-10 mx-auto">
+            <div class="my-3 p-4 border bg-light text-dark">
+                <div class="text-center mb-5">
+                    <h4>Action Required!</h4>
+                    <hr>
+                </div>
+                <div>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <p>Are you sure you want to delete "{{ object }}"?</p>
+                        <div class="text-end">
+                        <a href="javascript:history.go(-1)" class="btn btn-secondary">Cancel</a>
+                        <input type="submit" value="Delete" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

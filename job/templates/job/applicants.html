@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{# Alert #}
+{% include 'alerts.html' %}
+
+<div class="container">
+    <div class="row my-4">
+        <div>
+            {% if not applicants %}
+            <div class="text-center">
+                <h2><a href="{% url 'job' job.id %}">No appliations yet, please check again later!</a></h2>
+            </div>
+            {% else %}
+            <div class="text-center mb-3">
+                <h2>Applications for {{ job.title }}!</h2>
+                <hr>
+            </div>
+            {% for applicant in applicants %}
+            <div class="col-lg-4">
+                <div class="border p-3">
+                    <p>Name: <a href="{% url 'profile' applicant.user.id %}">{{ applicant.user.name }}</a></p> 
+                    <p>Email: {{ applicant.user.email }}</p>    
+                    {% if applicant.user.resume %}
+                    <p>Resume: <a href="{{ applicant.user.resume.url }}" target="_blank">Click to view</a></p>
+                    {% endif %}
+                    <p>Applied at: {{ applicant.applied_at }}</p>
+                    <span class="float-end">
+                        <a href="{% url 'select_application' applicant.job.id applicant.user.id %}" class="btn btn-sm btn-primary">Select</a>
+                        <a href="{% url 'reject_application' applicant.job.id applicant.user.id %}" class="btn btn-sm btn-secondary">Reject</a>
+                    </span>
+                    <br>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %} 
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

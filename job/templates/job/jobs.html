@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{# Alerts #}
+{% include 'alerts.html' %}
+
+{# Search Form #}
+{% include 'search_form.html' %}
+
+{# All Job #}
+<div class="container my-4">
+    <div class="row">
+      
+        <div class="mb-3">
+          {# Create Job #}
+          <span><a href="{% url 'add_job' %}" class="float-end btn btn-primary">Add Job</a></span>
+          {# Jobs Count #}
+          <strong>Available Jobs - {{ count }}</strong>
+        </div> 
+        <hr>
+        
+        {# Job #}
+        {% for job in jobs %}
+            <div class="col-md-4 mb-2">
+                {# card #}
+                <div class="card bg-light text-dark">
+                    {# card-body #}
+                    <div class="card-body">
+                        <h4><a class="fw-bold" href="{% url 'job' job.id %}">{{ job.title }}</a></h4>
+                        <p class="">Company: {{ job.company }}</p>
+
+                        {% if job.location%}
+                        <p class="">Location: {{ job.location }}</p>
+                        {% endif %}
+
+                        <p class="">Job Type: {{ job.job_type }}</p>
+                        
+                        {% if job.degree %}
+                        <p class="">Degree: {{ job.degree }}</p>
+                        {% endif %}
+
+                        {% if job.experience %}
+                        <p class="">Experience: {{ job.experience }} years</p>
+                        {% endif %}
+
+                        {% if job.salary%}
+                        <p class="">Salary: {{ job.salary }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{# Pagination #} 
+{% include 'pagination.html' %} 
+
+{% endblock content %}

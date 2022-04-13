@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="my-3 p-4 border bg-light text-dark">
+                <h4><strong>{{ message.count }}</strong> New Message</h4>
+                <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for message in all_messages %}
+                            <tr>
+                                {% if message.is_read == False %}
+                                    <td><strong><a href="{% url 'view_message' message.id %}">{{ message.subject }}</a></strong></td>
+                                    <td><strong><a href="{% url 'view_message' message.id %}">{{ message.body|truncatechars:50 }}</a></strong></td>
+                                    <td><strong>{{ message.created_at }}</strong></td>
+                                {% else %}
+                                    <td><a href="{% url 'view_message' message.id %}">{{ message.subject }}</a></td>
+                                    <td><a href="{% url 'view_message' message.id %}">{{ message.body|truncatechars:50 }}</a></td>
+                                    <td>{{ message.created_at }}</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div> 
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{# Alerts #}
+{% include 'alerts.html' %}
+
+{# Search Form #}
+{% include 'search_form.html' %}
+
+{# Developer Profile #}
+<div class="container my-4">
+    <div class="row">
+      
+        <div class="mb-3">
+          {# Developer Count #}
+          <strong>Available Developers - {{ count }}</strong>
+        </div> 
+        <hr>
+        
+        {% for profile in profiles %}
+            <div class="col-md-4 mb-2">
+                {# card #}
+                <div class="card bg-light text-dark">
+                    {# card-body #}
+                    <div class="card-body">
+                        {# avatar #}
+                        <img src="{{ profile.avatar.url }}" class="rounded-circle" alt="avatar" style="width: 50px; height: 50px;">
+                        {# name #}
+                        <a class="px-2" href="{{ profile.get_absolute_url }}">{{ profile.name }}</a>
+                        {# intro #}
+                        <p class="fw-bold px-5"><i class="fas fa-quote-left pe-2"></i>{{ profile.intro }}</p>
+                        <hr>
+                        {# skills #}
+                        {% for skill in profile.skills.all|slice:'10' %}
+                            <span class="badge rounded-pill bg-primary"># {{ skill }}</span>
+                        {% endfor %}
+                        {# bio #}
+                        <p class="mt-3">{{ profile.bio|truncatechars:"100" }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{# Pagination #} 
+{% include 'pagination.html' %} 
+
+{% endblock content %}

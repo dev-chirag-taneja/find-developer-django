@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %} 
+
+{# Alerts #}
+{% include 'alerts.html' %}
+
+{# Search Form #}
+{% include 'search_form.html' %}
+
+{# Projects #}
+<div class="container my-4">
+  <div class="row">
+
+    <div class="mb-3">
+      {# Create Projects #}
+      <span><a href="{% url 'add_project' %}" class="float-end btn btn-primary">Add Project</a></span>
+      {# Projects Count #}
+      <strong>Available Projects - {{ count }}</strong>
+    </div>
+    <hr/>
+    
+    {% for project in projects %}
+    <div class="col-md-4 mb-2">
+      {# card #}
+      <div class="card bg-light text-dark">
+        {# image #}
+        <a href="{{ project.get_absolute_url }}"
+          ><img
+            src="{{ project.featured_image.url }}"
+            alt="featured_image"
+            style="width: 414px; height: 260px"
+        /></a>
+        {# card-body #}
+        <div class="card-body">
+          {# title #}
+          <a href="{{ project.get_absolute_url }}">{{ project.title }}</a>
+          <p class="float-end">
+            <strong>By:</strong>
+            <a href="{% url 'profile' project.owner.id %}"
+              >{{ project.owner.name }}</a
+            >
+          </p>
+          <hr />
+          {# tags #} {% for tag in project.tags.all %}
+          <span class="badge rounded-pill bg-success"># {{ tag }}</span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{# Pagination #} 
+{% include 'pagination.html' %} 
+
+{% endblock content %}

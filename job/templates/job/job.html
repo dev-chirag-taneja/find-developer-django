@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+{# Alert #}
+{% include 'alerts.html' %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="my-3 p-4 bg-whte text-dark">
+                <div class="card">
+                    <div class="card-body">
+                        {# Condition 1 #}
+                        {% if request.user == job.author.user %}
+                            <span class="dropdown float-end">
+                                <a class="btn btn-sm btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                </a>    
+                                <ul class="dropdown-menu">
+                                    {# edit & delete #}
+                                    <li><a href="{% url 'edit_job' job.id %}" class="dropdown-item">Edit</a></li>
+                                    <li><a href="{% url 'delete_job' job.id %}" class="dropdown-item">Delete</a></li>
+                                    <li><a href="{% url 'applicants' job.id %}" class="dropdown-item">Applicants List</a></li>
+                                    <li><a href="{% url 'selected_list' job.id %}" class="dropdown-item">Selected List</a></li>
+                                </ul>
+                            </span>
+                        {% endif %}
+
+                        {# Condition 2 #}
+                        {% if request.user != job.author.user  %}
+                            <span class="float-end">
+                                {% if applied_job == False %}
+                                    <a href="{% url 'apply' job.id %}" class="btn btn-primary">Apply</a>
+                                {% else %}
+                                    <span class="btn btn-success">Applied</span>
+                                {% endif %}
+                            </span>
+                        {% endif %}
+
+                        {# title #}
+                        <h5 class="fw-bold card-title">{{ job.title }}</h5>
+                        {# Company #}
+                        <p>{{job.company}}</p>
+                        {# Job Type #}
+                        <p><strong>Job Type: </strong>{{job.job_type}}</p>
+                        {# location #}
+                        <p><strong>Location: </strong>{{job.location}}</p>
+                        {# Degree #}
+                        <p><strong>Degree: </strong>{{job.degree}}</p>
+                        {# Experience #}
+                        <p><strong>Experience: </strong>{{job.experience}} years</p>
+                        {# Sallary #}
+                        <p><strong>Salary: </strong>₹{{job.salary}} a month</p>
+                        <hr>
+                        {# Description #}
+                        <h5><strong>Description</strong></h5>
+                        <p class="card-text">{{ job.description|safe }}</p>
+                        <hr>
+                        {# Responsibility #}
+                        <h5><strong>Responsibility</strong></h5>
+                        <p class="card-text">{{ job.responsibility|safe }}</p>
+                        <hr>
+                        {# Skills #}
+                        <h5><strong>Required Skills</strong></h5>
+                        <p class="card-text">{{ job.req_skills|safe }}</p>
+                        <hr>
+                        {# Additional #}
+                        {% if job.additional %}
+                        <h5><strong>Additional</strong></h5>
+                        <p class="card-text">{{ job.additional|safe }}</p>
+                        <hr>
+                        {% endif %}
+                        {# Posted By #}
+                        <p class="card-text"><strong>Posted By: </strong><a href="{% url 'profile' job.author.id %}">{{ job.author.name }}</a></p>
+                        {# Posted on #}
+                        <p class="card-text"><strong>Posted On: </strong>{{ job.date_posted }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

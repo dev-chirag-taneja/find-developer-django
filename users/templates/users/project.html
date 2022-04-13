@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+{# Alert #}
+{% include 'alerts.html' %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-8 col-sm-10 mx-auto">
+            {# Projects #}
+            <h4 class='text-start my-3'>{{project.title}}
+                {# Like and Unlike #}
+                {% if like_count == 0 %}
+                <span class='float-end'>
+                    {{ like_count }} star 
+                    <a href="{% url 'rate_project' project.id %}"><i class="fa-regular fa-heart"></i></a>
+                </span>
+                {% else %}
+                    <span class='float-end'>
+                        {{ like_count }} star 
+                        <a href="{% url 'rate_project' project.id %}"><i class="fa-regular fa-heart"></i></a>
+                    </span>
+                {% endif %}
+                </h4>
+            <hr>
+            <div class="my-3 p-4 bg-whte text-dark">
+                <div class="card">
+                    {# image #}
+                    <img src="{{ project.featured_image.url }}" class="card-img-top" alt="project image">
+                    <div class="card-body">
+                        {# author #}
+                        <span class="float-end"><strong>Author-</strong> <a href="{% url 'profile' project.owner.id %}">{{ project.owner.name }}</a>
+                        </span>
+                        {# title #}
+                        <h5 class="card-title">{{ project.title }}
+                            {% if project.link %}
+                            <a href="{{ project.link }}"><i class="fa-solid fa-square-up-right"></i></a>
+                        {% endif %}
+                        </h5>
+                        {# tags #}
+                        {% for tag in tags %}
+                            <span class="badge rounded-pill bg-success"># {{ tag }}</span>
+                        {% endfor %}
+                        <br>
+                        <br>
+                        {# description #}
+                        <p class="card-text">{{ project.description|safe }}</p>
+                        {# edit & delete #}
+                        {% if request.user == project.owner.user %}
+                        <div class="text-end">
+                            <a href="{% url 'edit_project' project.id %}" class="btn btn-secondary">Edit</a>
+                            <a href="{% url 'delete_project' project.id %}" class="btn btn-primary">Delete</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            {# Comment Section #}
+            <h2>Post Comment</h2>
+            {% if request.user.is_authenticated %}
+            <form action="{% url 'project' project.id %}" method="POST" class="needs-validation" novalidate>
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-group mb-2">
+                    {% if field.errors %}
+                        {% render_field field class="form-control is-invalid" %}
+                            {% for error in field.errors %}
+                            <div class="invalid-feedback">
+                                {{ error }}
+                            </div>
+                            {% endfor %}
+                    {% else %}
+                        {% render_field field class="form-control" %}
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <div class="text-end">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+            {% else %}
+            <a href="{% url 'login' %}">Please login to leave a review.</a>
+            {% endif %}
+            <br>
+            <br>
+
+            {# Show Comments #}
+            {% if reviews %}
+            <h2>All Comments</h2>
+            {% for review in reviews %}
+            <div>
+                <img class="rounded-circle" src="{{ review.owner.avatar.url }}" alt="avator" style="width: 50px; height: 50px;">
+                <span class="px-2" >{{ review }}</span>
+                {% if request.user == review.owner.user %}
+                <span class="dropdown float-end px-1">
+                    <a class="btn btn-sm btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                    </a>
+                    <ul class="dropdown-menu text-center" aria-labelledby="dropdownMenuLink">
+                        <li><a href="{% url 'edit_review' review.id %}">Edit</a></li>
+                        <li><a href="{% url 'delete_review' review.id %}">Delete</a></li>
+                    </ul>
+                </span>
+                {% endif %}
+            </div>
+            <br>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script src="{% static '/js/form_validation.js' %}"></script>
+{% endblock content %}

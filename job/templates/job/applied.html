@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+{# Alert #}
+{% include 'alerts.html' %}
+
+<div class="container">
+    <div class="row my-4">
+        <div>
+            {% if see_applied_job.count == 0 %}
+            <div class="text-center">
+                <h2><a href="{% url 'jobs' %}">Find your first job today!</a></h2>
+            </div>
+            {% else %}
+            <div class="text-center mb-3">
+                <h2>All Applied Job!</h2>
+                <hr>
+            </div>
+            {% for job in see_applied_job %}
+            <div class="col-lg-4">
+                <div class="border p-3">
+                    <h4 class="card-title"><a href="{% url 'job' job.job.id %}">{{job.job.title}}</a></h4>
+                    <hr>
+                    <p class="">Company: {{ job.job.company }}</p>
+    
+                    {% if job.job.location%}
+                    <p class="">Location: {{ job.job.location }}</p>
+                    {% endif %}
+    
+                    <p class="">Job Type: {{ job.job.job_type }}</p>
+                    
+                    {% if job.job.degree %}
+                    <p class="">Degree: {{ job.job.degree }}</p>
+                    {% endif %}
+    
+                    {% if job.experience %}
+                    <p class="">Experience: {{ job.job.experience }} years</p>
+                    {% endif %}
+    
+                    {% if job.job.salary%}
+                    <p class="">Salary: {{ job.job.salary }}</p>
+                    {% endif %}
+    
+                    <p>Posted by: <a href="{% url 'profile' job.job.author.id %}">{{ job.job.author.name }}</a></p>
+                </div>
+            </div>
+            {% endfor %}
+            {% endif %} 
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
