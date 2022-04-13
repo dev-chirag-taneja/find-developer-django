@@ -10,7 +10,6 @@ Find Developer is a website for recruiters who are looking to hire a developers 
 </div>
 
 ## Features
----
 ```
 - Developer, Project & Job Section
 - Project Review, Like & Unlike
@@ -28,7 +27,6 @@ Find Developer is a website for recruiters who are looking to hire a developers 
 ``` 
 
 ## Tech Stack
----
 ```
 - Frontend:   Html, Css, Bootstrap
 - Backend:    Python, Django
@@ -37,7 +35,6 @@ Find Developer is a website for recruiters who are looking to hire a developers 
 ```
 
 ## Installation
----
 ```
 # Clone the Repo
 - git clone 
