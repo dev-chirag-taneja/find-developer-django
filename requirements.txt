@@ -16,6 +16,7 @@ django-tinymce==3.4.0
 django-widget-tweaks==1.4.12
 djangorestframework==3.13.1
 djangorestframework-simplejwt==5.1.0
+drf-writable-nested==0.6.3
 gunicorn==20.1.0
 idna==3.3
 inflection==0.5.1

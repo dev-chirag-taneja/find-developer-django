@@ -61,7 +61,7 @@ class Tag(models.Model):
     
 class Project(models.Model):
     id             = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    owner          = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True)
+    owner          = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, related_name='projects')
     title          = models.CharField(max_length=200)
     description    = HTMLField(null=True, blank=True)
     featured_image = models.ImageField(null=True, blank=True, default='demo.jpg', upload_to='images/')

@@ -53,7 +53,7 @@ def user_account(request):
 def user_profile(request, pk):
     profile  = Profile.objects.get(id=pk)    
     skills   = profile.skills.all()
-    projects = profile.project_set.all().order_by('-created_at')
+    projects = profile.projects.order_by('-created_at')
 
     context  ={'profile':profile, 'skills':skills, 'projects':projects}
     return render(request, 'users/profile.html', context)
